@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HealthDAO — Transparent Healthcare Treasury System</title>
+  <meta name="description" content="A decentralized governance system for transparent healthcare funding using blockchain-based smart contract simulation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- LANDING / CONNECT WALLET PAGE -->
+  <div id="landing-page" class="page active">
+    <div class="landing-bg">
+      <div class="grid-overlay"></div>
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+    <nav class="landing-nav">
+      <div class="logo-group">
+        <div class="logo-icon">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M20 4L36 12V28L20 36L4 28V12L20 4Z" stroke="url(#grad1)" stroke-width="2" fill="none"/>
+            <path d="M20 12V28M12 20H28" stroke="url(#grad1)" stroke-width="2.5" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="grad1" x1="4" y1="4" x2="36" y2="36">
+                <stop stop-color="#00d4ff"/>
+                <stop offset="1" stop-color="#7b4fff"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">Health<span class="accent">DAO</span></span>
+      </div>
+      <div class="nav-badge">Blockchain Governance</div>
+    </nav>
+
+    <main class="landing-main">
+      <div class="landing-content">
+        <div class="tag-pill">🏥 Decentralized Healthcare Funding</div>
+        <h1 class="hero-title">
+          Transparent Treasury<br/>
+          <span class="gradient-text">Governance for</span><br/>
+          Public Healthcare
+        </h1>
+        <p class="hero-desc">
+          A blockchain-based DAO where hospitals propose funding, district officials vote,
+          and smart contracts release funds transparently — eliminating corruption and ensuring
+          accountable healthcare spending.
+        </p>
+
+        <div class="role-cards">
+          <div class="role-card" id="connect-admin" onclick="connectWallet('admin')">
+            <div class="role-icon admin-icon">🏛️</div>
+            <div class="role-info">
+              <h3>State Admin</h3>
+              <p>Treasury Manager</p>
+              <span class="wallet-addr">0xAd...3f1</span>
+            </div>
+            <div class="role-arrow">→</div>
+          </div>
+          <div class="role-card" id="connect-official" onclick="connectWallet('official')">
+            <div class="role-icon official-icon">🗳️</div>
+            <div class="role-info">
+              <h3>District Official</h3>
+              <p>Voter / Reviewer</p>
+              <span class="wallet-addr">0xOf...7a2</span>
+            </div>
+            <div class="role-arrow">→</div>
+          </div>
+          <div class="role-card" id="connect-hospital" onclick="connectWallet('hospital')">
+            <div class="role-icon hospital-icon">🏥</div>
+            <div class="role-info">
+              <h3>Hospital</h3>
+              <p>Fund Proposer</p>
+              <span class="wallet-addr">0xHs...9b4</span>
+            </div>
+            <div class="role-arrow">→</div>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-item">
+            <span class="stat-val" id="stat-treasury">₹0</span>
+            <span class="stat-label">Treasury Balance</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-val" id="stat-proposals">0</span>
+            <span class="stat-label">Total Proposals</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-val" id="stat-approved">0</span>
+            <span class="stat-label">Approved & Executed</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-val" id="stat-voters">5</span>
+            <span class="stat-label">Registered Voters</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="landing-visual">
+        <div class="chain-visual">
+          <div class="chain-block">PROPOSAL<br/><small>Draft</small></div>
+          <div class="chain-arrow">⟶</div>
+          <div class="chain-block active-block">VOTE<br/><small>DAO</small></div>
+          <div class="chain-arrow">⟶</div>
+          <div class="chain-block">EXECUTE<br/><small>Funds</small></div>
+        </div>
+        <div class="feature-pills">
+          <div class="fpill">🔒 Time-Lock Security</div>
+          <div class="fpill">⚖️ Quorum Rules</div>
+          <div class="fpill">💰 Auto Fund Release</div>
+          <div class="fpill">📋 Audit Trail</div>
+          <div class="fpill">🌐 IPFS Proof</div>
+          <div class="fpill">🛡️ Anti-Corruption</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="app-page" class="page">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon small">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M20 4L36 12V28L20 36L4 28V12L20 4Z" stroke="url(#grad2)" stroke-width="2" fill="none"/>
+            <path d="M20 12V28M12 20H28" stroke="url(#grad2)" stroke-width="2.5" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="grad2" x1="4" y1="4" x2="36" y2="36">
+                <stop stop-color="#00d4ff"/>
+                <stop offset="1" stop-color="#7b4fff"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">Health<span class="accent">DAO</span></span>
+      </div>
+
+      <div class="wallet-info-sidebar">
+        <div class="wallet-avatar" id="sidebar-avatar">🏥</div>
+        <div class="wallet-details">
+          <span class="wallet-role" id="sidebar-role">Hospital</span>
+          <span class="wallet-addr-short" id="sidebar-addr">0xHs...9b4</span>
+        </div>
+        <div class="wallet-status online"></div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-view="dashboard" onclick="switchView('dashboard')">
+          <span class="nav-icon">📊</span> Dashboard
+        </button>
+        <button class="nav-item" data-view="proposals" onclick="switchView('proposals')" id="nav-proposals">
+          <span class="nav-icon">📋</span> Proposals
+        </button>
+        <button class="nav-item" data-view="create" onclick="switchView('create')" id="nav-create">
+          <span class="nav-icon">✏️</span> Create Proposal
+        </button>
+        <button class="nav-item" data-view="vote" onclick="switchView('vote')" id="nav-vote">
+          <span class="nav-icon">🗳️</span> Vote
+        </button>
+        <button class="nav-item" data-view="treasury" onclick="switchView('treasury')" id="nav-treasury">
+          <span class="nav-icon">💰</span> Treasury
+        </button>
+        <button class="nav-item" data-view="audit" onclick="switchView('audit')" id="nav-audit">
+          <span class="nav-icon">🔍</span> Audit Log
+        </button>
+      </nav>
+
+      <button class="disconnect-btn" onclick="disconnectWallet()">
+        <span>⏻</span> Disconnect
+      </button>
+    </aside>
+
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <h2 class="topbar-title" id="topbar-title">Dashboard</h2>
+        <div class="breadcrumb" id="breadcrumb">HealthDAO / Dashboard</div>
+      </div>
+      <div class="topbar-right">
+        <div class="block-counter">
+          <span class="block-dot"></span>
+          Block #<span id="block-number">14,892,031</span>
+        </div>
+        <div class="notif-btn" onclick="showNotifications()">
+          🔔 <span class="notif-badge" id="notif-count">3</span>
+        </div>
+        <div class="role-badge-top" id="role-badge-top">STATE ADMIN</div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+
+      <!-- DASHBOARD VIEW -->
+      <div class="view" id="view-dashboard">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon treasury-kpi">💰</div>
+            <div class="kpi-data">
+              <span class="kpi-value" id="kpi-treasury">₹0 Cr</span>
+              <span class="kpi-label">Treasury Balance</span>
+              <span class="kpi-change up">↑ Active</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon proposal-kpi">📋</div>
+            <div class="kpi-data">
+              <span class="kpi-value" id="kpi-proposals">0</span>
+              <span class="kpi-label">Total Proposals</span>
+              <span class="kpi-change" id="kpi-proposals-change">0 Active</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon approved-kpi">✅</div>
+            <div class="kpi-data">
+              <span class="kpi-value" id="kpi-approved">0</span>
+              <span class="kpi-label">Approved & Executed</span>
+              <span class="kpi-change up" id="kpi-disbursed">₹0 Disbursed</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon voter-kpi">🗳️</div>
+            <div class="kpi-data">
+              <span class="kpi-value">5</span>
+              <span class="kpi-label">Registered Voters</span>
+              <span class="kpi-change">Quorum: 3</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="card proposals-overview">
+            <div class="card-header">
+              <h3>Recent Proposals</h3>
+              <button class="card-action" onclick="switchView('proposals')">View All →</button>
+            </div>
+            <div class="proposals-mini-list" id="proposals-mini-list">
+              <div class="empty-state-sm">No proposals yet. Hospitals can create proposals.</div>
+            </div>
+          </div>
+
+          <div class="card governance-rules">
+            <div class="card-header">
+              <h3>Governance Rules</h3>
+            </div>
+            <div class="rules-list">
+              <div class="rule-item">
+                <span class="rule-label">Min. Quorum</span>
+                <span class="rule-val">3 voters</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-label">Approval Threshold</span>
+                <span class="rule-val">60% YES</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-label">High-Value Quorum (>₹5Cr)</span>
+                <span class="rule-val">4 voters</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-label">Voting Period</span>
+                <span class="rule-val">7 days</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-label">Time-Lock Duration</span>
+                <span class="rule-val">48 hours post-vote</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card category-limits">
+            <div class="card-header">
+              <h3>Category Budget Limits</h3>
+            </div>
+            <div class="cat-list" id="cat-limit-list"></div>
+          </div>
+
+          <div class="card activity-feed">
+            <div class="card-header">
+              <h3>Live Activity</h3>
+              <span class="live-dot">● LIVE</span>
+            </div>
+            <div class="activity-list" id="activity-list">
+              <div class="activity-item">
+                <span class="act-icon">🚀</span>
+                <div class="act-text">
+                  <strong>HealthDAO Deployed</strong>
+                  <small>Smart contract initialized on chain</small>
+                </div>
+                <span class="act-time">Just now</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROPOSALS VIEW -->
+      <div class="view hidden" id="view-proposals">
+        <div class="view-header">
+          <div class="filter-group">
+            <button class="filter-btn active" onclick="filterProposals('all', this)">All</button>
+            <button class="filter-btn" onclick="filterProposals('voting', this)">Voting</button>
+            <button class="filter-btn" onclick="filterProposals('approved', this)">Approved</button>
+            <button class="filter-btn" onclick="filterProposals('executed', this)">Executed</button>
+            <button class="filter-btn" onclick="filterProposals('rejected', this)">Rejected</button>
+          </div>
+          <div class="search-box">
+            <input type="text" id="search-proposals" placeholder="🔍 Search proposals..." oninput="searchProposals(this.value)" />
+          </div>
+        </div>
+        <div class="proposals-grid" id="proposals-grid">
+          <div class="empty-state">
+            <div class="empty-icon">📋</div>
+            <h3>No Proposals Yet</h3>
+            <p>Hospitals can create funding proposals that will appear here for voting.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CREATE PROPOSAL VIEW -->
+      <div class="view hidden" id="view-create">
+        <div class="create-wrapper">
+          <div class="create-form-card">
+            <div class="form-header">
+              <div class="form-step-indicator">
+                <div class="step active" id="step-1-dot">1</div>
+                <div class="step-line"></div>
+                <div class="step" id="step-2-dot">2</div>
+                <div class="step-line"></div>
+                <div class="step" id="step-3-dot">3</div>
+              </div>
+              <h2>Create Funding Proposal</h2>
+              <p>Fill in the details of your healthcare funding request</p>
+            </div>
+
+            <div id="form-step-1" class="form-step">
+              <h3>📋 Basic Information</h3>
+              <div class="form-group">
+                <label>Proposal Title *</label>
+                <input type="text" id="prop-title" placeholder="e.g. ICU Expansion - District General Hospital" />
+              </div>
+              <div class="form-group">
+                <label>Description *</label>
+                <textarea id="prop-desc" rows="4" placeholder="Describe the need, expected impact, and beneficiaries..."></textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Category *</label>
+                  <select id="prop-category">
+                    <option value="">Select Category</option>
+                    <option value="Infrastructure">🏗️ Infrastructure</option>
+                    <option value="Equipment">🔬 Equipment</option>
+                    <option value="Medicines">💊 Medicines</option>
+                    <option value="Staffing">👨‍⚕️ Staffing</option>
+                    <option value="Technology">💻 Technology</option>
+                    <option value="Research">🧬 Research</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Priority Level *</label>
+                  <select id="prop-priority">
+                    <option value="">Select Priority</option>
+                    <option value="Emergency">🔴 Emergency</option>
+                    <option value="Routine">🟡 Routine</option>
+                    <option value="Planned">🟢 Planned</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn-primary" onclick="nextStep(2)">Next: Financial Details →</button>
+            </div>
+
+            <div id="form-step-2" class="form-step hidden">
+              <h3>💰 Financial Details</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Amount Requested (₹ Lakhs) *</label>
+                  <input type="number" id="prop-amount" placeholder="e.g. 250" min="1" />
+                </div>
+                <div class="form-group">
+                  <label>Category Limit</label>
+                  <div class="category-limit-display" id="cat-limit-display">Select a category first</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Voting Deadline *</label>
+                <input type="date" id="prop-deadline" />
+              </div>
+              <div class="form-group">
+                <label>Supporting Document (IPFS Hash)</label>
+                <div class="ipfs-input-group">
+                  <input type="text" id="prop-ipfs" placeholder="Qm..." readonly />
+                  <button class="btn-secondary" onclick="simulateIPFSUpload()">📤 Simulate Upload</button>
+                </div>
+                <small class="input-hint">Upload document to IPFS and paste the hash here</small>
+              </div>
+              <div class="form-btn-row">
+                <button class="btn-secondary" onclick="nextStep(1)">← Back</button>
+                <button class="btn-primary" onclick="nextStep(3)">Next: Review →</button>
+              </div>
+            </div>
+
+            <div id="form-step-3" class="form-step hidden">
+              <h3>🔍 Review & Submit</h3>
+              <div class="proposal-preview" id="proposal-preview"></div>
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="terms-check" />
+                  I confirm this proposal is accurate and complies with HealthDAO governance rules
+                </label>
+              </div>
+              <div class="form-btn-row">
+                <button class="btn-secondary" onclick="nextStep(2)">← Edit</button>
+                <button class="btn-primary submit-btn" onclick="submitProposal()" id="submit-btn">
+                  🚀 Submit Proposal to Blockchain
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VOTE VIEW -->
+      <div class="view hidden" id="view-vote">
+        <div class="vote-container" id="vote-container">
+          <div class="empty-state">
+            <div class="empty-icon">🗳️</div>
+            <h3>No Active Proposals for Voting</h3>
+            <p>Proposals in "Voting" stage will appear here for district officials to vote on.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TREASURY VIEW -->
+      <div class="view hidden" id="view-treasury">
+        <div class="treasury-container">
+          <div class="treasury-hero">
+            <div class="treasury-balance-card">
+              <div class="tb-label">Total Treasury Balance</div>
+              <div class="tb-value" id="treasury-balance-display">₹0</div>
+              <div class="tb-sub">Locked in Smart Contract</div>
+            </div>
+            <div class="treasury-actions" id="treasury-actions">
+              <!-- Admin only -->
+            </div>
+          </div>
+
+          <div class="treasury-grid">
+            <div class="card">
+              <div class="card-header"><h3>💸 Fund Allocation by Category</h3></div>
+              <div class="allocation-bars" id="allocation-bars"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>📊 Transaction History</h3></div>
+              <div class="tx-list" id="tx-list">
+                <div class="empty-state-sm">No transactions yet.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AUDIT LOG VIEW -->
+      <div class="view hidden" id="view-audit">
+        <div class="audit-container">
+          <div class="card">
+            <div class="card-header">
+              <h3>🔍 Immutable Audit Log</h3>
+              <span class="live-dot">● LIVE</span>
+            </div>
+            <div class="audit-table-wrapper">
+              <table class="audit-table">
+                <thead>
+                  <tr>
+                    <th>Block #</th>
+                    <th>Timestamp</th>
+                    <th>Action</th>
+                    <th>Actor</th>
+                    <th>Details</th>
+                    <th>Tx Hash</th>
+                  </tr>
+                </thead>
+                <tbody id="audit-tbody">
+                  <tr><td colspan="6" class="empty-cell">No audit entries yet.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODALS -->
+  <div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal()">
+    <div class="modal" id="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="modal-title">Modal</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS -->
+  <div id="toast-container"></div>
+
+  <!-- TX SIGNING OVERLAY -->
+  <div id="tx-overlay" class="tx-overlay hidden">
+    <div class="tx-modal">
+      <div class="tx-spinner"></div>
+      <h3 id="tx-title">Signing Transaction...</h3>
+      <p id="tx-desc">Broadcasting to blockchain network</p>
+      <div class="tx-hash-line">
+        Tx: <span id="tx-hash-preview">0x...</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/blockchain.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
